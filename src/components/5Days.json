@@ -1,0 +1,170 @@
+{
+    "Headline": {
+      "EffectiveDate": "2023-01-01T19:00:00+02:00",
+      "EffectiveEpochDate": 1672592400,
+      "Severity": 7,
+      "Text": "Mild Sunday night",
+      "Category": "heat",
+      "EndDate": "2023-01-02T07:00:00+02:00",
+      "EndEpochDate": 1672635600,
+      "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?lang=en-us",
+      "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?lang=en-us"
+    },
+    "DailyForecasts": [
+      {
+        "Date": "2022-12-30T07:00:00+02:00",
+        "EpochDate": 1672376400,
+        "Temperature": {
+          "Minimum": {
+            "Value": 53,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 68,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 1,
+          "IconPhrase": "Sunny",
+          "HasPrecipitation": false
+        },
+        "Night": {
+          "Icon": 33,
+          "IconPhrase": "Clear",
+          "HasPrecipitation": false
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=1&lang=en-us",
+        "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=1&lang=en-us"
+      },
+      {
+        "Date": "2022-12-31T07:00:00+02:00",
+        "EpochDate": 1672462800,
+        "Temperature": {
+          "Minimum": {
+            "Value": 54,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 68,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 1,
+          "IconPhrase": "Sunny",
+          "HasPrecipitation": false
+        },
+        "Night": {
+          "Icon": 34,
+          "IconPhrase": "Mostly clear",
+          "HasPrecipitation": false
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=2&lang=en-us",
+        "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=2&lang=en-us"
+      },
+      {
+        "Date": "2023-01-01T07:00:00+02:00",
+        "EpochDate": 1672549200,
+        "Temperature": {
+          "Minimum": {
+            "Value": 56,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 67,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 4,
+          "IconPhrase": "Intermittent clouds",
+          "HasPrecipitation": false
+        },
+        "Night": {
+          "Icon": 35,
+          "IconPhrase": "Partly cloudy",
+          "HasPrecipitation": false
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=3&lang=en-us",
+        "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=3&lang=en-us"
+      },
+      {
+        "Date": "2023-01-02T07:00:00+02:00",
+        "EpochDate": 1672635600,
+        "Temperature": {
+          "Minimum": {
+            "Value": 53,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 66,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 3,
+          "IconPhrase": "Partly sunny",
+          "HasPrecipitation": false
+        },
+        "Night": {
+          "Icon": 33,
+          "IconPhrase": "Clear",
+          "HasPrecipitation": false
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=4&lang=en-us",
+        "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=4&lang=en-us"
+      },
+      {
+        "Date": "2023-01-03T07:00:00+02:00",
+        "EpochDate": 1672722000,
+        "Temperature": {
+          "Minimum": {
+            "Value": 55,
+            "Unit": "F",
+            "UnitType": 18
+          },
+          "Maximum": {
+            "Value": 69,
+            "Unit": "F",
+            "UnitType": 18
+          }
+        },
+        "Day": {
+          "Icon": 1,
+          "IconPhrase": "Sunny",
+          "HasPrecipitation": false
+        },
+        "Night": {
+          "Icon": 35,
+          "IconPhrase": "Partly cloudy",
+          "HasPrecipitation": false
+        },
+        "Sources": [
+          "AccuWeather"
+        ],
+        "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=5&lang=en-us",
+        "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=5&lang=en-us"
+      }
+    ]
+  }
