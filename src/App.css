@@ -36,6 +36,20 @@
   align-items: center;
 }
 
+.favorit_btn{
+  position: absolute;
+  right: 50px;
+  top: 150px;
+  background-color: rgb(87, 166, 244) !important;
+}
+.favorit_btn:hover{
+  box-shadow: 3px 10px 18px #b7b5b5
+}
+
+.saved{
+  background-color: red !important;
+}
+
 /* current city */
 .current {
   position: absolute;
@@ -68,6 +82,12 @@
   #current_img {
     width: 6rem;
   }
+  .favorit_btn{
+    right: 20px;
+    top: 140px;
+    font-size: 0.7rem !important;
+  }
+  
 }
 @media only screen and (max-width: 525px) {
   .current {
@@ -86,6 +106,7 @@
   .five_days_wrapper {
     padding-top: 25% !important;
   }
+  
 }
 @media only screen and (max-width: 400px) {
   #current_img {
@@ -182,3 +203,7 @@
 #day_p {
   padding-top: 5%;
 }
+
+
+/* Favorite */
+
