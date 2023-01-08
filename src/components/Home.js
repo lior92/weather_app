@@ -1,23 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+//fake data
 import data from "./datamemo.json";
 import five_Days from "./5Days.json";
 import axios from "axios";
 import { Form, ListGroup, Button } from "react-bootstrap";
 import { userContext } from "../App";
 import "../App.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addFavorite,
-  removeFavorite,
-  saveCity,
-  removeCity,
-} from "../features/favoritSlice";
 
 const Home = () => {
   //HOOKS
-
-  const dispatch = useDispatch();
-
   //curret city key(by default tel aviv)
   const [current_key, setCurrent_key] = useState("215854");
   //current city
@@ -28,8 +19,6 @@ const Home = () => {
   const [cities, setCities] = useState([]);
   //five days forecast
   const [five_days_forecast, setFive_days_forecast] = useState([]);
-  //toggle button save/remove
-  const [toggle, setToggle] = useState("save");
 
   //use context
   const user_context = useContext(userContext);
@@ -71,8 +60,11 @@ const Home = () => {
     // ];
     // setCurrent_temp(data[0].Temperature.Metric["Value"]);
     // setFive_days_forecast(five_Days.DailyForecasts);
+
     //!Origin
+    // default tlv
     //current
+
     axios
       .get(
         `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
@@ -83,8 +75,8 @@ const Home = () => {
       })
       .catch((err) => console.log(err));
 
-    //   //5 days default (tlv)
     //!Origin
+    //5 days default tlv
     //5 days
     axios
       .get(
@@ -134,7 +126,7 @@ const Home = () => {
 
   //Current weather
   const currentWeather = (city_key, city_name) => {
-    //update current
+    //update current (not part of demo)
     setCurrentcity(city_name);
     //DEMO
     // const data = [
@@ -169,6 +161,7 @@ const Home = () => {
     //   },
     // ];
     // setCurrent_temp(data[0].Temperature.Metric["Value"]);
+
     //!Origin
     axios
       .get(
@@ -176,7 +169,6 @@ const Home = () => {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data[0].Temperature.Metric["Value"]);
         setCurrent_temp(data[0].Temperature.Metric["Value"]);
       })
       .catch((err) => console.log(err));
@@ -184,6 +176,7 @@ const Home = () => {
 
   //5 days forecast
   const fiveDaysForecast = (city_key) => {
+    setCities([]);
     //DEMO
     // setFive_days_forecast(five_Days.DailyForecasts);
     //!Origin
@@ -193,88 +186,10 @@ const Home = () => {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setFive_days_forecast(data.DailyForecasts);
       })
       .catch((err) => console.log(err));
-  };
-
-  //check if saved city saved in the stor, if yes give it class favorit_btn btn btn-primary saved. the in the saveBtn function it will save one time
-  const saved_cites = useSelector((state) => state.favorites.saved_cites);
-  useEffect(() => {
-    saved_cites.forEach((city) => {
-      if (city == curren_city) {
-        setToggle("Remove");
-        let btn = document.querySelector(".favorit_btn");
-        btn.className = "favorit_btn btn btn-primary saved";
-      }
-    });
-  }, [saved_cites]);
-
-  const saveBtn = (e) => {
-    //DEMO
-    // const data = [
-    //   {
-    //     LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
-    //     EpochTime: 1672430400,
-    //     WeatherText: "Overcast",
-    //     WeatherIcon: 7,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     LocalSource: {
-    //       Id: 7,
-    //       Name: "Huafeng",
-    //       WeatherCode: "02",
-    //     },
-    //     IsDayTime: false,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 4.2,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 40,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-    //     Link: "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-    //   },
-    // ];
-
-
-
-   //!Origin
-    axios
-      .get(
-        `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
-      )
-      .then((response) => {
-        const data = response.data;
-        // console.log(data)
-        setCurrent_temp(data[0].Temperature.Metric["Value"]);
-      })
-      .catch((err) => console.log(err));
-
-    e.target.classList.toggle("saved");
-    //add the element from favorit state
-    if (e.target.className == "favorit_btn btn btn-primary saved") {
-      //remember wich city saved and save in the store
-      dispatch(saveCity(curren_city));
-      setToggle("Remove");
-      console.log(data[0]);
-      dispatch(addFavorite(data[0]));
-    }
-    //remove the element from favorit state
-    else {
-      dispatch(removeCity(curren_city));
-      setToggle("save");
-      dispatch(removeFavorite());
-    }
-
   };
 
   const days = [
@@ -298,7 +213,10 @@ const Home = () => {
       <div className="current">
         <h6>{curren_city}</h6>
         <p>{current_temp}&#8451;</p>
-        {/* <img id="current_img" src={require(`../imges/${five_Days.DailyForecasts[0].Day['Icon']}.png`)} /> */}
+        <img
+          id="current_img"
+          src={require(`../imges/${five_days_forecast[0].Day.Icon}.png`)}
+        />
       </div>
 
       <div className="input_container">
@@ -328,13 +246,7 @@ const Home = () => {
           );
         })}
       </ListGroup>
-      <Button
-        onClick={(e) => saveBtn(e)}
-        className="favorit_btn"
-        variant="primary"
-      >
-        {toggle}
-      </Button>
+
       <div className="five_days_wrapper">
         {five_days_forecast.map((day, i) => {
           const dayIndex = (currentDay() + i) % 7;
