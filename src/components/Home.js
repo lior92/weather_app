@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-// import data from "./datamemo.json";
-// import five_Days from "./5Days.json";
+import data from "./datamemo.json";
+import five_Days from "./5Days.json";
 import axios from "axios";
 import { Form, ListGroup, Button } from "react-bootstrap";
 import { userContext } from "../App";
 import "../App.css";
-import { useDispatch } from "react-redux";
-import { addFavorite, removeFavorite } from "../features/favoritSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFavorite,
+  removeFavorite,
+  saveCity,
+  removeCity,
+} from "../features/favoritSlice";
 
 const Home = () => {
   //HOOKS
@@ -23,8 +28,6 @@ const Home = () => {
   const [cities, setCities] = useState([]);
   //five days forecast
   const [five_days_forecast, setFive_days_forecast] = useState([]);
-  //Favorit array
-  const [favorite, setFavorit] = useState([]);
   //toggle button save/remove
   const [toggle, setToggle] = useState("save");
 
@@ -32,115 +35,9 @@ const Home = () => {
   const user_context = useContext(userContext);
   let key = user_context.API_KEY;
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //useEffect for first load
+  //on first load update 5 days and current weather of tell aviv
   useEffect(() => {
-    // const data = [
-    //   {
-    //     LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
-    //     EpochTime: 1672430400,
-    //     WeatherText: "Overcast",
-    //     WeatherIcon: 7,
-    //     HasPrecipitation: false,
-    //     PrecipitationType: null,
-    //     LocalSource: {
-    //       Id: 7,
-    //       Name: "Huafeng",
-    //       WeatherCode: "02",
-    //     },
-    //     IsDayTime: false,
-    //     Temperature: {
-    //       Metric: {
-    //         Value: 4.2,
-    //         Unit: "C",
-    //         UnitType: 17,
-    //       },
-    //       Imperial: {
-    //         Value: 40,
-    //         Unit: "F",
-    //         UnitType: 18,
-    //       },
-    //     },
-    //     MobileLink:
-    //       "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-    //     Link: "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-    //   },
-    // ];
-
-    //  //!צריך לעשות בקשה לתל אביב קורנט
-    //  setCurrent_temp(data[0].Temperature.Metric["Value"]);
-
-    //  //5 days default (tlv)
-    //  //!צריך לעשות בקשה לתל אביב לחמישה ימים
-    //  setFive_days_forecast(five_Days.DailyForecasts);
-
-    //!לבדוק אם זה עובד,, זה הקורנט טמפ הראשוני, צריך להיות של תל אביב
-    axios
-      .get(
-        `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
-      )
-      .then((response) => {
-        const data = response.data;
-        setCurrent_temp(data[0].Temperature.Metric["Value"]);
-      })
-      .catch((err) => console.log(err));
-
-    //5 days default (tlv)
-    //!צריך לעשות בקשה לתל אביב לחמישה ימים
-    axios
-      .get(
-        `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${current_key}?apikey=${key}`
-      )
-      .then((response) => {
-        const data = response.data;
-        setFive_days_forecast(data.DailyForecasts);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //Autocomplete search
-  const autocompleteSearch = (text) => {
-    //   let arr = [];
-
-    //   data.map((city) => {
-    //     if (city.LocalizedName.toLowerCase().startsWith(text)) {
-    //       arr.push(city);
-    //     }
-    //     if (text.length == 0) {
-    //       arr = [];
-    //     }
-    //   });
-    //   setCities(arr);
-
-    // console.log(text.length);
-    let arr = [];
-    if (text.length == 0) {
-      setCities([]);
-    }
-
-    axios
-      .get(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${key}&q=${text}`
-      )
-      .then((response) => {
-        const data = response.data;
-        data.map((city) => {
-          if (city.LocalizedName.toLowerCase().startsWith(text)) {
-            arr.push(city);
-          }
-        });
-        setCities(arr);
-      })
-      .catch((err) => console.log(err));
-  };
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  //Current weather
-  const currentWeather = (city_key, city_name) => {
-    //update current
-    setCurrentcity(city_name);
-    //fake data
+    //DEMO
     // const data = [
     //   {
     //     LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
@@ -173,7 +70,106 @@ const Home = () => {
     //   },
     // ];
     // setCurrent_temp(data[0].Temperature.Metric["Value"]);
+    // setFive_days_forecast(five_Days.DailyForecasts);
+    //!Origin
+    //current
+    axios
+      .get(
+        `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
+      )
+      .then((response) => {
+        const data = response.data;
+        setCurrent_temp(data[0].Temperature.Metric["Value"]);
+      })
+      .catch((err) => console.log(err));
 
+    //   //5 days default (tlv)
+    //!Origin
+    //5 days
+    axios
+      .get(
+        `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${current_key}?apikey=${key}`
+      )
+      .then((response) => {
+        const data = response.data;
+        setFive_days_forecast(data.DailyForecasts);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  //Autocomplete search
+  const autocompleteSearch = (text) => {
+    //DEMO
+    // let arr = [];
+    // data.map((city) => {
+    //   if (city.LocalizedName.toLowerCase().startsWith(text)) {
+    //     arr.push(city);
+    //   }
+    //   if (text.length == 0) {
+    //     arr = [];
+    //   }
+    // });
+    // setCities(arr);
+
+    //!Origin
+    let arr = [];
+    if (text.length == 0) {
+      setCities([]);
+    }
+    axios
+      .get(
+        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${key}&q=${text}`
+      )
+      .then((response) => {
+        const data = response.data;
+        data.map((city) => {
+          if (city.LocalizedName.toLowerCase().startsWith(text)) {
+            arr.push(city);
+          }
+        });
+        setCities(arr);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  //Current weather
+  const currentWeather = (city_key, city_name) => {
+    //update current
+    setCurrentcity(city_name);
+    //DEMO
+    // const data = [
+    //   {
+    //     LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
+    //     EpochTime: 1672430400,
+    //     WeatherText: "Overcast",
+    //     WeatherIcon: 7,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     LocalSource: {
+    //       Id: 7,
+    //       Name: "Huafeng",
+    //       WeatherCode: "02",
+    //     },
+    //     IsDayTime: false,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 4.2,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 40,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
+    //     Link: "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
+    //   },
+    // ];
+    // setCurrent_temp(data[0].Temperature.Metric["Value"]);
+    //!Origin
     axios
       .get(
         `http://dataservice.accuweather.com/currentconditions/v1/${city_key}?apikey=${key}`
@@ -185,13 +181,12 @@ const Home = () => {
       })
       .catch((err) => console.log(err));
   };
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //5 days forecast
   const fiveDaysForecast = (city_key) => {
     //DEMO
     // setFive_days_forecast(five_Days.DailyForecasts);
-
+    //!Origin
     axios
       .get(
         `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${city_key}?apikey=${key}`
@@ -204,7 +199,84 @@ const Home = () => {
       .catch((err) => console.log(err));
   };
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //check if saved city saved in the stor, if yes give it class favorit_btn btn btn-primary saved. the in the saveBtn function it will save one time
+  const saved_cites = useSelector((state) => state.favorites.saved_cites);
+  useEffect(() => {
+    saved_cites.forEach((city) => {
+      if (city == curren_city) {
+        setToggle("Remove");
+        let btn = document.querySelector(".favorit_btn");
+        btn.className = "favorit_btn btn btn-primary saved";
+      }
+    });
+  }, [saved_cites]);
+
+  const saveBtn = (e) => {
+    //DEMO
+    // const data = [
+    //   {
+    //     LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
+    //     EpochTime: 1672430400,
+    //     WeatherText: "Overcast",
+    //     WeatherIcon: 7,
+    //     HasPrecipitation: false,
+    //     PrecipitationType: null,
+    //     LocalSource: {
+    //       Id: 7,
+    //       Name: "Huafeng",
+    //       WeatherCode: "02",
+    //     },
+    //     IsDayTime: false,
+    //     Temperature: {
+    //       Metric: {
+    //         Value: 4.2,
+    //         Unit: "C",
+    //         UnitType: 17,
+    //       },
+    //       Imperial: {
+    //         Value: 40,
+    //         Unit: "F",
+    //         UnitType: 18,
+    //       },
+    //     },
+    //     MobileLink:
+    //       "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
+    //     Link: "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
+    //   },
+    // ];
+
+
+
+   //!Origin
+    axios
+      .get(
+        `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
+      )
+      .then((response) => {
+        const data = response.data;
+        // console.log(data)
+        setCurrent_temp(data[0].Temperature.Metric["Value"]);
+      })
+      .catch((err) => console.log(err));
+
+    e.target.classList.toggle("saved");
+    //add the element from favorit state
+    if (e.target.className == "favorit_btn btn btn-primary saved") {
+      //remember wich city saved and save in the store
+      dispatch(saveCity(curren_city));
+      setToggle("Remove");
+      console.log(data[0]);
+      dispatch(addFavorite(data[0]));
+    }
+    //remove the element from favorit state
+    else {
+      dispatch(removeCity(curren_city));
+      setToggle("save");
+      dispatch(removeFavorite());
+    }
+
+  };
+
   const days = [
     "sunday",
     "modday",
@@ -220,66 +292,6 @@ const Home = () => {
     let n = d.getDay();
     return n;
   }
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  const saveBtn = (e) => {
-    const data = [
-      {
-        LocalObservationDateTime: "2022-12-31T04:00:00+08:00",
-        EpochTime: 1672430400,
-        WeatherText: "Overcast",
-        WeatherIcon: 7,
-        HasPrecipitation: false,
-        PrecipitationType: null,
-        LocalSource: {
-          Id: 7,
-          Name: "Huafeng",
-          WeatherCode: "02",
-        },
-        IsDayTime: false,
-        Temperature: {
-          Metric: {
-            Value: 4.2,
-            Unit: "C",
-            UnitType: 17,
-          },
-          Imperial: {
-            Value: 40,
-            Unit: "F",
-            UnitType: 18,
-          },
-        },
-        MobileLink:
-          "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-        Link: "http://www.accuweather.com/en/cn/hanzhong/60453/current-weather/60453?lang=en-us",
-      },
-    ];
-
-    e.target.classList.toggle("saved");
-    //add the element from favorit state
-    if (e.target.className == "favorit_btn btn btn-primary saved") {
-      setToggle("Remove");
-      dispatch(addFavorite(data[0]));
-    }
-    //remove the element from favorit state
-    else {
-      setToggle("save");
-      dispatch(removeFavorite());
-    }
-
-    // !מדמה את הבקשה של הקוררנט, זה מה שאני צריך לשמור
-
-    // axios
-    // .get(
-    //   `http://dataservice.accuweather.com/currentconditions/v1/${current_key}?apikey=${key}`
-    // )
-    // .then((response) => {
-    //   const data = response.data;
-    //   console.log(data)
-    //   setCurrent_temp(data[0].Temperature.Metric['Value'])
-    // })
-    // .catch((err) => console.log(err));
-  };
 
   return (
     <div className="home">
